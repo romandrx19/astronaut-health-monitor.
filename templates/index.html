@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080f20">
+  <meta id="oct-session-token" name="ares-oct-token" content="{{ oct_token }}">
+  <title>Ares Health | Mission Control</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/oct.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/research.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/telemetry.css') }}">
+  <script defer src="{{ url_for('static', filename='js/navigation.js') }}"></script>
+  <script defer src="{{ url_for('static', filename='js/oct.js') }}"></script>
+  <script defer src="{{ url_for('static', filename='js/research.js') }}"></script>
+  <script defer src="{{ url_for('static', filename='js/telemetry.js') }}"></script>
+  <script defer src="{{ url_for('static', filename='js/simulation.js') }}"></script>
+  <script defer src="{{ url_for('static', filename='js/app.js') }}"></script>
+</head>
+
+<body class="dashboard-app" data-view="control">
+  <a class="skip-link" href="#main-content">Saltar al contenido</a>
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark" aria-hidden="true">✦</span>
+      <div><strong>ARES <span>HEALTH</span></strong><small>ARES-01 · MISSION CONTROL</small></div>
+    </div>
+    <div class="workspace-heading"><h1 id="workspace-title">Salud de la tripulación</h1>
+      <p><span id="current-module">Centro de control</span><span id="crew-context"> · <span id="selected-crew-name">—</span></span></p></div>
+    <div class="top-actions">
+      <span id="connection" class="connection">● Conectando…</span><span class="mission-label">ARES-01 · DEMO</span>
+      <button id="control-home" type="button" class="secondary" hidden>Centro de control</button>
+      <button id="toggle" type="button">▶ Reanudar simulación</button>
+      <button id="refresh" type="button" class="secondary">↻ Generar lectura</button>
+      <button id="menu-toggle" type="button" class="secondary" aria-haspopup="dialog" aria-controls="module-menu" aria-expanded="false">☰ Menú</button>
+    </div>
+  </header>
+  <aside id="priority-banner" class="priority-banner" aria-label="Atención prioritaria" aria-live="polite" hidden>
+    <strong>! Atención prioritaria</strong><div id="priority-list"></div>
+  </aside>
+  <main id="main-content" class="workspace" tabindex="-1">
+    <section id="view-control" class="module-view control-view" aria-labelledby="control-title">
+      <h2 id="control-title" class="sr-only" tabindex="-1">Centro de control</h2>
+    <section class="summary" aria-label="Resumen de la misión">
+      <article class="stat"><span>TRIPULANTES</span><strong id="total-crew">—</strong><small>En seguimiento</small>
+      </article>
+      <article class="stat"><span>SIN ALERTAS EDUCATIVAS*</span><strong id="normal-count">—</strong><small>Según reglas de
+          demostración</small></article>
+      <article class="stat"><span>CON ALERTAS EDUCATIVAS</span><strong id="warning-count">—</strong><small>Última
+          lectura</small></article>
+      <article class="stat"><span>ÚLTIMA ACTUALIZACIÓN</span><strong id="last-update"
+          class="small-number">—</strong><small>UTC</small></article>
+    </section>
+      <div class="dashboard-grid">
+        <aside class="panel crew-panel" aria-labelledby="crew-title">
+          <div class="section-header"><div><p class="eyebrow">01 / TRIPULACIÓN</p><h2 id="crew-title">Tripulantes</h2></div></div>
+          <div id="crew-cards" class="crew-grid" aria-live="polite"></div>
+          <div class="crew-tools">
+            <label for="source-filter">Origen visible</label>
+            <select id="source-filter"><option value="">Todos los registros</option><option value="manual">Solo manuales</option>
+              <option value="simulated">Solo simulación</option><option value="smartwatch">Smartwatch verificado</option></select>
+            <button id="open-manual" type="button" class="secondary">Registro manual</button>
+            <button id="open-devices" type="button" class="secondary">Dispositivos</button>
+            <p class="muted">Perfiles ficticios. Los estados educativos no equivalen a una evaluación clínica.</p>
+          </div>
+        </aside>
+        <article class="panel telemetry-panel" aria-labelledby="detail-title">
+          <div class="section-header"><div><p class="eyebrow">02 / TELEMETRÍA</p><h2 id="detail-title">Indicadores actuales</h2></div>
+            <span id="reading-source" class="pill">CONSULTANDO</span></div>
+          <div class="telemetry-acquisition">
+            <p class="muted"><span id="reading-time">—</span> · <span id="reading-freshness">Sin lectura</span></p>
+            <p id="reading-completeness" class="muted"></p>
+          </div>
+          <div id="telemetry-layout" class="telemetry-layout">
+            <svg id="telemetry-connectors" class="telemetry-connectors" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"></svg>
+            <div id="metrics-left" class="telemetry-side" aria-label="Indicadores cardiovasculares"></div>
+            <div class="astronaut-monitor">
+              <div class="body-stage">
+                <div id="telemetry-body" class="body-container">
+                  <svg class="astronaut-svg" viewBox="0 0 240 480" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="telemetry-body-title">
+                    <title id="telemetry-body-title">Mapa corporal interactivo de indicadores</title>
+                    <g fill="#254d6e" stroke="#5986a5" stroke-width="1.4" stroke-linejoin="round">
+                      <path d="M98 49 C98 19 142 19 142 49 L139 66 Q136 79 129 82 L129 96
+                        Q145 100 158 106 Q169 111 173 130 L188 188 L198 233 Q201 245 194 248
+                        Q187 250 184 239 L168 197 L155 159 L160 223 Q162 242 157 257
+                        L149 330 L141 427 L146 447 Q149 453 140 455 L121 455 Q116 454 117 445
+                        L120 425 L120 328 L120 275 L117 328 L116 425 L120 445 Q122 455 114 455
+                        L97 455 Q89 454 93 446 L99 427 L90 330 L82 257 Q77 241 80 223 L85 159
+                        L72 197 L56 239 Q53 250 46 248 Q39 245 42 233 L52 188 L67 130
+                        Q71 111 82 106 Q95 100 111 96 L111 82 Q104 79 101 66 Z"/>
+                    </g>
+                    <g fill="none" stroke="#75a0ba" stroke-width="1" opacity=".38" stroke-linecap="round">
+                      <path d="M104 111 Q120 118 136 111 M120 120 V215 M92 155 Q104 164 114 155 M126 155 Q136 164 148 155
+                        M97 202 Q120 211 143 202 M96 236 Q120 246 144 236 M104 274 L108 323 M136 274 L132 323
+                        M98 344 L104 398 M142 344 L136 398"/>
+                    </g>
+                  </svg>
+                  <button class="body-point" data-metric="temperature" style="--sensor-x:50%;--sensor-y:11%" title="Temperatura corporal · cabeza" aria-label="Seleccionar temperatura corporal"></button>
+                  <button class="body-point" data-metric="heart_rate" style="--sensor-x:44%;--sensor-y:29%" title="Frecuencia cardíaca · pecho" aria-label="Seleccionar frecuencia cardíaca"></button>
+                  <button class="body-point" data-metric="spo2" style="--sensor-x:58%;--sensor-y:34%" title="Saturación de oxígeno · pecho" aria-label="Seleccionar saturación de oxígeno"></button>
+                  <button class="body-point" data-metric="systolic" style="--sensor-x:24%;--sensor-y:42%" title="Presión sistólica · brazo" aria-label="Seleccionar presión sistólica"></button>
+                  <button class="body-point" data-metric="diastolic" style="--sensor-x:77%;--sensor-y:47%" title="Presión diastólica · brazo" aria-label="Seleccionar presión diastólica"></button>
+                  <button class="body-point" data-metric="glucose" style="--sensor-x:50%;--sensor-y:48%" title="Glucosa sanguínea · abdomen" aria-label="Seleccionar glucosa sanguínea"></button>
+                  <button class="body-point" data-metric="sleep_hours" style="--sensor-x:56%;--sensor-y:73%" title="Horas de sueño · descanso corporal" aria-label="Seleccionar horas de sueño"></button>
+                </div>
+              </div>
+              <div class="body-status"><span id="body-status-light" class="status-light" data-state="pending"></span><span id="body-status-text">Esperando evaluación…</span></div>
+              <p class="telemetry-map-note">Los puntos vinculan indicadores con regiones del cuerpo.</p>
+            </div>
+            <div class="telemetry-side telemetry-right">
+              <div id="metrics-right" class="telemetry-indicators"></div>
+              <section id="telemetry-watch" class="telemetry-watch" aria-labelledby="telemetry-watch-model">
+                <div class="telemetry-watch-heading">
+                  <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="6" y="6" width="12" height="12" rx="4"/><path d="M9 6V2h6v4M9 18v4h6v-4M18 10h2M9 12h2l1-3 2 6 1-3"/></svg>
+                  <strong id="telemetry-watch-model">Roadtrip Watch 4 GPS</strong>
+                </div>
+                <p id="device-summary" class="telemetry-watch-status" role="status">Estado pendiente de verificar</p>
+                <dl><div><dt>Última sincronización confirmada</dt><dd id="telemetry-watch-sync">Sin confirmación</dd></div>
+                  <div><dt>Fuente de la última lectura</dt><dd id="telemetry-watch-source">Sin lectura</dd></div></dl>
+              </section>
+            </div>
+          </div>
+          <div class="metric-focus"><div id="selected-metric-summary" aria-live="polite">Selecciona un indicador.</div>
+            <button id="open-history" type="button" class="secondary">Ver evolución</button></div>
+          <div id="metrics" class="metric-grid" hidden></div>
+        </article>
+        <aside class="panel active-events-panel" aria-labelledby="active-events-title">
+          <div class="section-header"><div><p class="eyebrow">03 / EVENTOS</p><h2 id="active-events-title">Alertas y orientación</h2></div>
+            <span id="active-alert-count" class="pill">Evaluando…</span></div>
+          <p id="assessment-overview" role="status">Evaluación pendiente.</p>
+          <p id="assessment-coverage-summary" class="muted"></p>
+          <div id="active-alerts" tabindex="0" aria-label="Alertas actuales del astronauta"></div>
+          <div class="event-actions"><button id="open-event-details" type="button" class="secondary">Ver detalles</button>
+            <button id="open-event-history" type="button" class="secondary">Historial de eventos</button></div>
+        </aside>
+      </div>
+    </section>
+    <section id="view-history" class="module-view" aria-labelledby="history-title" hidden>
+    <section class="panel" id="history-panel">
+      <div class="section-header">
+        <div>
+          <p class="eyebrow">04 / ANÁLISIS</p>
+          <h2 id="history-title" tabindex="-1">Historial y análisis</h2>
+        </div><label for="metric-select">Indicador <select id="metric-select">
+            <option value="heart_rate">Frecuencia cardíaca</option>
+            <option value="spo2">SpO₂</option>
+            <option value="systolic">Presión sistólica</option>
+            <option value="diastolic">Presión diastólica</option>
+            <option value="glucose">Glucosa</option>
+            <option value="temperature">Temperatura</option>
+            <option value="sleep_hours">Sueño</option>
+          </select></label>
+      </div>
+      <p class="muted">Astronauta: <strong id="history-name">—</strong>. El origen visible se conserva al navegar.</p>
+      <div id="selected-assessment" class="selected-assessment" aria-live="polite"></div>
+      <p id="reading-observations" class="muted"></p>
+      <div class="chart-container"><canvas id="history-chart" role="img"
+          aria-label="Evolución del indicador seleccionado; valores disponibles en la tabla"></canvas></div>
+      <p class="muted">● Celeste: simulación · ● Naranja: manual · ● Verde: smartwatch verificado. Los indicadores ausentes o de baja calidad no se dibujan como cero.</p>
+      <div class="records-scroll"><table class="records"><caption>Registros del indicador seleccionado</caption><thead><tr><th>Fecha UTC</th><th>Origen</th><th>Valor</th></tr></thead><tbody id="history-records"></tbody></table></div>
+      <p id="chart-caption" class="muted">Últimas 36 lecturas · orden cronológico</p>
+    </section>
+    </section>
+    <section id="view-medical" class="module-view" aria-labelledby="medical-title" hidden>
+    <section class="panel" id="medical-panel" aria-labelledby="medical-title">
+      <div class="section-header">
+        <div>
+          <p class="eyebrow">05 / HISTORIAL MÉDICO</p>
+          <h2 id="medical-title" tabindex="-1">Expediente del astronauta</h2>
+        </div>
+        <span class="pill">DEMOSTRACIÓN LOCAL</span>
+      </div>
+      <p class="muted">Expediente de <strong id="medical-name">—</strong>.
+        <span id="medical-updated">Sin información registrada.</span></p>
+      <section class="ocular-medical-summary" aria-labelledby="ocular-medical-title">
+        <h3 id="ocular-medical-title">Salud ocular — OCT</h3>
+        <p id="ocular-medical-summary" role="status">Sin exámenes OCT consultados.</p>
+        <button id="open-oct-medical" type="button" class="secondary">Consultar salud ocular</button>
+      </section>
+      <form id="medical-form" novalidate aria-busy="false" aria-describedby="medical-disclaimer">
+        <fieldset id="medical-fields" disabled>
+          <legend class="medical-legend">Información del expediente</legend>
+          <label for="medical-notes">Antecedentes y observaciones médicas</label>
+          <textarea id="medical-notes" name="notes" rows="5" maxlength="20000"
+            placeholder="Registra únicamente información de demostración o autorizada."></textarea>
+          <h3>Referencias biométricas individuales</h3>
+          <p class="muted">Opcionales: completa ambos valores o deja ambos vacíos para cada indicador.
+            Estas referencias no son límites clínicos validados.</p>
+          <div id="medical-references" class="medical-references"></div>
+        </fieldset>
+        <p class="disclaimer" id="medical-disclaimer">Información educativa; no constituye un diagnóstico médico.
+          Usa solo datos de demostración en este entorno local. Las referencias guardadas se comparan con las lecturas en Eventos.</p>
+        <p class="muted">Los cambios se guardan únicamente al pulsar el botón. Los borradores se conservan por astronauta durante esta sesión.</p>
+        <div class="medical-actions">
+          <button id="medical-save" type="submit" disabled>Guardar expediente</button>
+          <button id="medical-retry" type="button" class="secondary" hidden>Reintentar carga</button>
+        </div>
+        <p id="medical-message" role="status" aria-live="polite">Esperando a la tripulación…</p>
+      </form>
+    </section>
+    </section>
+    <section id="view-manual" class="module-view" aria-labelledby="manual-title" hidden>
+    <section class="panel manual-entry" id="manual-entry">
+      <h2 id="manual-title" tabindex="-1">Registro manual de mediciones</h2>
+      <p class="muted">Astronauta seleccionado: <strong id="manual-astronaut">—</strong>.
+        Completa uno o varios indicadores. Los demás permanecen sin registrar.
+        Cambiar de astronauta vacía los campos sin guardar.</p>
+      <form id="manual-form" novalidate>
+        <fieldset id="manual-fields">
+          <label for="manual-captured-at">Fecha y hora de adquisición (hora local del navegador)
+            <input id="manual-captured-at" name="acquired_at" type="datetime-local" step="1"></label>
+          <p class="muted">Si dejas la fecha vacía, se utiliza la hora actual del servidor. Al guardar se pausa la simulación en todas las ventanas.</p>
+          <div class="manual-grid">
+            <label for="manual-heart_rate">Frecuencia cardíaca (bpm)<input id="manual-heart_rate" name="heart_rate" type="number" min="1" max="300" step="1"></label>
+            <label for="manual-spo2">Saturación de oxígeno (%)<input id="manual-spo2" name="spo2" type="number" min="0" max="100" step="1"></label>
+            <label for="manual-systolic">Presión sistólica (mmHg)<input id="manual-systolic" name="systolic" type="number" min="1" max="350" step="1"></label>
+            <label for="manual-diastolic">Presión diastólica (mmHg)<input id="manual-diastolic" name="diastolic" type="number" min="1" max="250" step="1"></label>
+            <label for="manual-glucose">Glucosa (mg/dL)<input id="manual-glucose" name="glucose" type="number" min="1" max="1000" step="1"></label>
+            <label for="manual-temperature">Temperatura corporal (°C)<input id="manual-temperature" name="temperature" type="number" min="25" max="45" step="0.1"></label>
+            <label for="manual-sleep_hours">Horas de sueño (h)<input id="manual-sleep_hours" name="sleep_hours" type="number" min="0" max="24" step="0.1"></label>
+          </div>
+          <label for="manual-observations">Observaciones opcionales</label>
+          <textarea id="manual-observations" name="observations" rows="3" maxlength="4000"></textarea>
+        </fieldset>
+        <p class="disclaimer">Los límites detectan errores de captura; no son rangos clínicos. Una entrada manual no es telemetría verificada del reloj ni modifica el expediente médico.</p>
+        <button id="manual-submit" type="submit">Registrar medición</button>
+        <p id="manual-message" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+    </section>
+    <section id="view-devices" class="module-view" aria-labelledby="devices-title" hidden>
+      <article class="panel device-panel">
+        <p class="eyebrow">DISPOSITIVOS / ADQUISICIÓN</p><h2 id="devices-title" tabindex="-1">Dispositivos</h2>
+        <h3>Roadtrip Watch 4 JG74</h3>
+        <p id="device-status" class="muted" role="status">Consultando estado de integración…</p>
+        <p id="device-verification" class="muted">Sin telemetría física verificada.</p>
+        <form id="device-connect-form" class="device-controls">
+          <label for="device-id">Identificador BLE
+            <input id="device-id" name="device_id" value="auto" maxlength="200" autocomplete="off" required>
+          </label>
+          <p class="muted">Se asignará a <strong id="device-astronaut">la persona seleccionada</strong>.</p>
+          <div>
+            <button id="device-connect" type="submit">Conectar JG74</button>
+            <button id="device-disconnect" type="button" class="secondary">Desconectar</button>
+            <button id="device-refresh" type="button" class="secondary">Actualizar estado</button>
+          </div>
+          <p id="device-action-message" role="status" aria-live="polite"></p>
+        </form>
+        <p class="disclaimer">La integración verifica el dispositivo JG74, Heart Rate Service 0x180D y notificaciones 0x2A37. Bleak es opcional; simulación, registro manual, NASA, historial y OCT siguen disponibles sin Bluetooth.</p>
+        <dl class="device-states">
+          <dt>Buscando o conectando</dt><dd>El backend intenta localizar y verificar el JG74.</dd>
+          <dt>Conectado sin telemetría confirmada</dt><dd>La conexión por sí sola no acredita recepción de datos biométricos.</dd>
+          <dt>Recibiendo lecturas reales</dt><dd>Reservado a un adaptador físico verificado con recepción confirmada.</dd>
+          <dt>Reconectando</dt><dd>El enlace se perdió y el manager aplica reintentos limitados.</dd>
+          <dt>Desconectado</dt><dd>El adaptador no mantiene una conexión física activa.</dd>
+        </dl>
+        <p class="muted">El registro manual y el simulador siguen disponibles sin el reloj.</p>
+      </article>
+    </section>
+    <section id="view-events" class="module-view" aria-labelledby="events-title" hidden>
+      <article class="panel" id="events-panel">
+        <div class="section-header">
+          <div>
+            <p class="eyebrow">EVENTOS / DETALLE</p>
+            <h2 id="events-title" tabindex="-1">Historial de eventos y orientación</h2>
+          </div><span id="alert-count" class="pill">Evaluando…</span>
+        </div>
+        <p id="assessment-summary" role="status">Evaluación pendiente.</p>
+        <p id="assessment-coverage" class="muted"></p>
+        <p class="event-legend">✓ Según referencia · ◇ Sin referencia · △ Variación · ! Revisión · ! Prioridad por protocolo</p>
+        <div class="event-controls">
+          <label><input id="events-selected-only" type="checkbox"> Solo indicador seleccionado</label>
+          <button id="assessment-retry" type="button" class="secondary" hidden>Reintentar evaluación</button>
+        </div>
+        <section id="priority-detail" aria-label="Evaluación prioritaria conservada" hidden></section>
+        <div id="alerts" class="alerts" aria-live="polite"></div>
+        <details id="health-event-history" class="health-event-history">
+          <summary>Historial de eventos del astronauta</summary>
+          <p class="muted">Incluye los orígenes registrados; cada evento identifica su procedencia.
+            Una condición persistente se agrupa en un episodio.</p>
+          <div id="event-history-list"></div>
+        </details>
+        <p class="disclaimer">Prototipo educativo. Una variación no es un diagnóstico ni confirma una emergencia.
+          Si existen síntomas graves, activa el procedimiento de emergencia establecido para la misión.</p>
+      </article>
+    </section>
+    {% include 'oct.html' %}
+    {% include 'research.html' %}
+  </main>
+  <footer class="statusbar"><span id="simulation-status">Consultando estado de simulación…</span><span>Prototipo educativo local · Sin diagnóstico clínico</span></footer>
+  <dialog id="module-menu" class="module-menu" aria-labelledby="menu-title">
+    <div class="menu-heading"><h2 id="menu-title">Módulos</h2><button id="menu-close" type="button" class="secondary" aria-label="Cerrar menú">✕</button></div>
+    <nav aria-label="Módulos de ARES HEALTH">
+      <button id="nav-control" type="button" aria-current="page">01 · Centro de control</button>
+      <button id="nav-history" type="button">02 · Historial y análisis</button>
+      <button id="nav-medical" type="button">03 · Expedientes médicos</button>
+      <button id="nav-manual" type="button">04 · Registro manual</button>
+      <button id="nav-devices" type="button">05 · Dispositivos</button>
+      <button id="nav-events" type="button">06 · Historial de eventos</button>
+      <button id="nav-oct" type="button">07 / SALUD OCULAR — OCT</button>
+      <button id="nav-research" type="button">08 · Investigación NASA</button>
+    </nav>
+    <p class="muted">Navegar conserva el astronauta seleccionado, la simulación y los formularios sin guardar.</p>
+  </dialog>
+</body>
+</html>

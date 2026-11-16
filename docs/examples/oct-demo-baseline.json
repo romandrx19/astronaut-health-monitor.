@@ -1,0 +1,29 @@
+{
+  "is_demo": true,
+  "eye": "OD",
+  "exam_date": "2026-01-01T12:00:00Z",
+  "mission_phase": "preflight",
+  "device_model": "Equipo OCT de demostración",
+  "scan_protocol": "Protocolo sintético A",
+  "image_quality": "good",
+  "is_baseline": true,
+  "provenance": "exported_report",
+  "source_document": "Ejemplo sintético ARES OCT basal",
+  "notes": "Ejemplo ficticio para probar almacenamiento y comparación. Valores sin interpretación clínica.",
+  "measurements": [
+    {
+      "metric": "rnfl",
+      "value": 90,
+      "unit": "µm",
+      "anatomical_region": "Anillo de prueba",
+      "measurement_method": "Informe sintético v1"
+    },
+    {
+      "metric": "trt",
+      "value": 250,
+      "unit": "µm",
+      "anatomical_region": "Región de prueba A",
+      "measurement_method": "Informe sintético v1"
+    }
+  ]
+}

@@ -1,0 +1,128 @@
+<section id="view-oct" class="module-view oct-view" aria-labelledby="oct-title" hidden>
+  <article class="panel oct-module">
+    <div class="section-header">
+      <div><h2 id="oct-title" tabindex="-1">Monitoreo neuroocular — Optical Coherence Tomography</h2>
+        <p class="muted">Seguimiento de estructuras oculares antes, durante y después de la misión.</p></div>
+      <button id="oct-new-exam" type="button">Registrar examen</button>
+    </div>
+    <p class="oct-demo-label">Datos OCT de demostración</p>
+    <p class="muted">Entorno local con perfiles ficticios. Las comparaciones requieren interpretación del personal médico de la misión.</p>
+    <div class="oct-context">
+      <label for="oct-astronaut">Astronauta<select id="oct-astronaut"></select></label>
+      <div><span class="muted">Expediente</span><strong id="oct-record">—</strong></div>
+      <label for="oct-eye">Ojo<select id="oct-eye"><option value="OD">Derecho · OD</option><option value="OS">Izquierdo · OS</option></select></label>
+      <label for="oct-exam-select">Examen<select id="oct-exam-select"><option value="">Sin exámenes registrados</option></select></label>
+      <button id="oct-refresh" type="button" class="secondary">Actualizar exámenes</button>
+    </div>
+    <p id="oct-status" role="status" aria-live="polite">Selecciona Registrar examen para iniciar el seguimiento ocular.</p>
+
+    <div class="oct-workspace">
+      <section class="oct-card oct-viewer" aria-labelledby="oct-viewer-title">
+        <div class="section-header"><h3 id="oct-viewer-title">Visualizador OCT</h3><span id="oct-exam-phase" class="muted">Sin examen</span></div>
+        <label for="oct-file-select">Imagen asociada<select id="oct-file-select"><option value="">Sin imágenes importadas</option></select></label>
+        <div class="oct-viewer-tools" aria-label="Controles de imagen">
+          <button id="oct-fit" type="button" class="secondary">Ajustar</button>
+          <button id="oct-zoom-out" type="button" class="secondary" aria-label="Reducir imagen OCT">−</button>
+          <output id="oct-zoom-label" aria-live="polite">100 %</output>
+          <button id="oct-zoom-in" type="button" class="secondary" aria-label="Ampliar imagen OCT">+</button>
+          <button id="oct-zoom-reset" type="button" class="secondary">Restablecer</button>
+        </div>
+        <div id="oct-image-viewport" class="oct-image-viewport" tabindex="0" aria-label="Imagen OCT ampliable con desplazamiento">
+          <p id="oct-image-empty" class="muted">Aún no hay imágenes. Registra un examen y carga una exportación PNG, JPEG o TIFF de una sola página.</p>
+          <div id="oct-image-stage" class="oct-image-stage" hidden><img id="oct-image" alt="Imagen importada del examen OCT de demostración seleccionado" draggable="false" hidden></div>
+        </div>
+        <p id="oct-file-info" class="muted"></p>
+        <details class="oct-metadata"><summary>Metadatos y observaciones del examen</summary><dl id="oct-exam-metadata"></dl></details>
+        <form id="oct-attach-form" class="oct-attach-form">
+          <label for="oct-attach-files">Añadir imágenes al examen seleccionado<input id="oct-attach-files" type="file" accept=".png,.jpg,.jpeg,.tif,.tiff" multiple></label>
+          <button id="oct-attach-submit" type="submit" class="secondary" disabled>Adjuntar imágenes</button>
+        </form>
+      </section>
+
+      <section class="oct-card" aria-labelledby="oct-measurements-title">
+        <h3 id="oct-measurements-title">Mediciones documentadas</h3>
+        <div id="oct-measurements"></div>
+        <div class="oct-review-summary"><h3>Seguimiento ocular</h3><p id="oct-baseline-info" class="muted">No existe un examen basal comparable</p>
+          <button id="oct-set-baseline" type="button" class="secondary" disabled>Usar este examen como basal</button>
+          <p id="oct-review-info" class="muted">Sin revisión registrada.</p>
+        </div>
+        <div id="oct-notices" class="oct-notices" aria-live="polite"></div>
+      </section>
+    </div>
+
+    <section class="oct-card oct-followup" aria-labelledby="oct-followup-title">
+      <h3 id="oct-followup-title">Comparación longitudinal</h3>
+      <div class="oct-filters">
+        <label for="oct-baseline-select">Referencia basal<select id="oct-baseline-select"><option value="">Basal marcado compatible</option></select></label>
+        <label for="oct-metric-select">Indicador y región<select id="oct-metric-select"><option value="">Sin mediciones comparables</option></select></label>
+        <label for="oct-period-from">Desde<input id="oct-period-from" type="date"></label>
+        <label for="oct-period-to">Hasta<input id="oct-period-to" type="date"></label>
+        <button id="oct-compare" type="button" class="secondary">Comparar</button>
+      </div>
+      <p id="oct-comparison-status" role="status">No existe un examen basal comparable</p>
+      <div id="oct-comparison-values" class="oct-comparison-values"></div>
+      <div class="oct-chart-container"><canvas id="oct-chart" role="img" aria-label="Evolución de mediciones OCT. Los valores y fechas están disponibles en la tabla." aria-describedby="oct-chart-caption"></canvas></div>
+      <p id="oct-chart-caption" class="muted">Los puntos corresponden a exámenes guardados.</p>
+      <div class="records-scroll"><table class="records"><caption>Mediciones comparables en el periodo elegido</caption><thead><tr><th>Examen y fecha UTC</th><th>Fase</th><th>Valor</th><th>Calidad declarada</th><th>Procedencia</th></tr></thead><tbody id="oct-history-records"></tbody></table></div>
+    </section>
+
+    <details id="oct-registration" class="oct-card oct-registration">
+      <summary>Registrar o importar un examen</summary>
+      <p class="muted">Examen para <strong id="oct-form-astronaut">—</strong>. Los campos se conservan al cambiar de vista. Cambiar de astronauta descarta el borrador OCT.</p>
+      <label for="oct-json-file">Importar resultados JSON con el esquema ARES OCT<input id="oct-json-file" type="file" accept=".json,application/json"></label>
+      <p class="muted">El archivo completa este formulario para su revisión antes de guardar. Las imágenes se adjuntan por separado.</p>
+      <form id="oct-exam-form" novalidate>
+        <fieldset id="oct-exam-fields">
+          <legend>Datos del examen</legend>
+          <div class="oct-form-grid">
+            <label for="oct-form-eye">Ojo<select id="oct-form-eye"><option value="OD">Derecho · OD</option><option value="OS">Izquierdo · OS</option></select></label>
+            <label for="oct-form-date">Fecha y hora del examen, hora local<input id="oct-form-date" type="datetime-local" step="1" required></label>
+            <label for="oct-form-phase">Etapa de misión<select id="oct-form-phase"><option value="preflight">Preflight · antes del vuelo</option><option value="inflight">Inflight · durante el vuelo</option><option value="postflight">Postflight · después del vuelo</option></select></label>
+            <label for="oct-form-device">Equipo OCT<input id="oct-form-device" type="text" maxlength="200"></label>
+            <label for="oct-form-protocol">Protocolo de exploración<input id="oct-form-protocol" type="text" maxlength="200"></label>
+            <label for="oct-form-quality">Calidad declarada<select id="oct-form-quality"><option value="unknown">No informada</option><option value="good">Buena</option><option value="poor">Baja</option><option value="ungradable">No interpretable</option></select></label>
+            <label for="oct-form-provenance">Procedencia de resultados<select id="oct-form-provenance"><option value="manual_entry">Transcripción manual</option><option value="exported_report">Informe exportado</option></select></label>
+            <label for="oct-form-source">Nombre o referencia del informe<input id="oct-form-source" type="text" maxlength="200"></label>
+          </div>
+          <label class="oct-check"><input id="oct-form-baseline" type="checkbox"> Definir como basal para este ojo, equipo y protocolo</label>
+          <h4>Mediciones disponibles</h4>
+          <p class="muted">Añade los valores y metadatos disponibles en el informe. La comparación queda pendiente si falta equipo, protocolo, unidad, región o método. Puedes guardar un examen que solo contenga imágenes.</p>
+          <div id="oct-measurement-fields"></div>
+          <datalist id="oct-metric-codes"><option value="rnfl">Grosor RNFL</option><option value="trt">Grosor retiniano total</option><option value="macular">Grosor macular</option><option value="choroidal">Grosor coroideo</option></datalist>
+          <button id="oct-add-measurement" type="button" class="secondary">Añadir medición</button>
+          <label for="oct-form-notes">Observaciones del examen<textarea id="oct-form-notes" rows="3" maxlength="20000"></textarea></label>
+          <details class="oct-metadata"><summary>Revisión declarada en el informe</summary>
+            <div class="oct-form-grid">
+              <label for="oct-form-review-status">Estado de revisión<select id="oct-form-review-status"><option value="pending">Pendiente</option><option value="review_requested">Revisión solicitada</option><option value="reviewed">Revisión registrada</option></select></label>
+              <label for="oct-form-reviewed-by">Profesional responsable<input id="oct-form-reviewed-by" type="text" maxlength="200"></label>
+              <label for="oct-form-reviewed-at">Fecha de revisión, hora local<input id="oct-form-reviewed-at" type="datetime-local" step="1"></label>
+            </div>
+            <label for="oct-form-review-notes">Observaciones de revisión<textarea id="oct-form-review-notes" rows="2" maxlength="10000"></textarea></label>
+          </details>
+          <label for="oct-form-files">Imágenes asociadas<input id="oct-form-files" type="file" accept=".png,.jpg,.jpeg,.tif,.tiff" multiple></label>
+          <p class="muted">Hasta 5 imágenes por carga, 10 MiB por imagen. PNG, JPEG y TIFF de una sola página. DICOM requiere un adaptador validado.</p>
+          <label class="oct-check"><input id="oct-form-demo" type="checkbox" required> Confirmo que los datos y archivos son ficticios o sintéticos para demostración.</label>
+        </fieldset>
+        <button id="oct-exam-submit" type="submit">Guardar examen OCT</button>
+      </form>
+    </details>
+
+    <details id="oct-review-panel" class="oct-card">
+      <summary>Registrar revisión del examen seleccionado</summary>
+      <p class="muted">Cambiar de examen carga su revisión y descarta los cambios de revisión sin guardar.</p>
+      <form id="oct-review-form" novalidate>
+        <fieldset id="oct-review-fields" disabled>
+          <legend>Revisión profesional declarada</legend>
+          <div class="oct-form-grid">
+            <label for="oct-review-status">Estado<select id="oct-review-status"><option value="pending">Pendiente</option><option value="review_requested">Revisión solicitada</option><option value="reviewed">Revisión registrada</option></select></label>
+            <label for="oct-reviewed-by">Profesional responsable<input id="oct-reviewed-by" type="text" maxlength="200"></label>
+            <label for="oct-reviewed-at">Fecha de revisión, hora local<input id="oct-reviewed-at" type="datetime-local" step="1"></label>
+          </div>
+          <label for="oct-review-notes">Observaciones de revisión<textarea id="oct-review-notes" rows="3" maxlength="10000"></textarea></label>
+        </fieldset>
+        <button id="oct-review-submit" type="submit" class="secondary" disabled>Guardar revisión</button>
+      </form>
+    </details>
+    <p class="disclaimer">Las diferencias se calculan a partir de mediciones introducidas o importadas. La interpretación clínica de OCT y la valoración de SANS corresponden al personal médico.</p>
+  </article>
+</section>

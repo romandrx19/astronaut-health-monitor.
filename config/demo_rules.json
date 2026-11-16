@@ -1,0 +1,161 @@
+[
+  {
+    "id": "ares.demo.heart_rate",
+    "scope": "educational",
+    "metric": "heart_rate",
+    "unit": "bpm",
+    "condition": {
+      "operator": "outside",
+      "min_value": 55,
+      "max_value": 105
+    },
+    "source": {
+      "title": "Reglas educativas ARES HEALTH",
+      "reference": "Configuración de demostración del proyecto",
+      "url": null
+    },
+    "version": "1",
+    "validation_status": "demonstration",
+    "message": "Frecuencia cardíaca fuera del rango de demostración",
+    "guidance": [
+      "Revisar la lectura y contrastarla con el contexto de actividad."
+    ],
+    "enabled": true
+  },
+  {
+    "id": "ares.demo.spo2",
+    "scope": "educational",
+    "metric": "spo2",
+    "unit": "%",
+    "condition": {
+      "operator": "below",
+      "threshold": 95
+    },
+    "source": {
+      "title": "Reglas educativas ARES HEALTH",
+      "reference": "Configuración de demostración del proyecto",
+      "url": null
+    },
+    "version": "1",
+    "validation_status": "demonstration",
+    "message": "SpO₂ por debajo del umbral de demostración",
+    "guidance": [
+      "Verificar la calidad de la medición; informar al personal médico de la misión según el protocolo."
+    ],
+    "enabled": true
+  },
+  {
+    "id": "ares.demo.systolic",
+    "scope": "educational",
+    "metric": "systolic",
+    "unit": "mmHg",
+    "condition": {
+      "operator": "outside",
+      "min_value": 95,
+      "max_value": 140
+    },
+    "source": {
+      "title": "Reglas educativas ARES HEALTH",
+      "reference": "Configuración de demostración del proyecto",
+      "url": null
+    },
+    "version": "1",
+    "validation_status": "demonstration",
+    "message": "Presión sistólica fuera del rango de demostración",
+    "guidance": [
+      "Repetir la lectura de forma correcta y seguir el protocolo médico establecido."
+    ],
+    "enabled": true
+  },
+  {
+    "id": "ares.demo.diastolic",
+    "scope": "educational",
+    "metric": "diastolic",
+    "unit": "mmHg",
+    "condition": {
+      "operator": "outside",
+      "min_value": 60,
+      "max_value": 90
+    },
+    "source": {
+      "title": "Reglas educativas ARES HEALTH",
+      "reference": "Configuración de demostración del proyecto",
+      "url": null
+    },
+    "version": "1",
+    "validation_status": "demonstration",
+    "message": "Presión diastólica fuera del rango de demostración",
+    "guidance": [
+      "Comprobar el registro y consultar las indicaciones del equipo médico."
+    ],
+    "enabled": true
+  },
+  {
+    "id": "ares.demo.glucose",
+    "scope": "educational",
+    "metric": "glucose",
+    "unit": "mg/dL",
+    "condition": {
+      "operator": "outside",
+      "min_value": 70,
+      "max_value": 140
+    },
+    "source": {
+      "title": "Reglas educativas ARES HEALTH",
+      "reference": "Configuración de demostración del proyecto",
+      "url": null
+    },
+    "version": "1",
+    "validation_status": "demonstration",
+    "message": "Glucosa fuera del rango de demostración",
+    "guidance": [
+      "Registrar si fue antes o después de comer; estos datos no bastan para una evaluación clínica."
+    ],
+    "enabled": true
+  },
+  {
+    "id": "ares.demo.temperature",
+    "scope": "educational",
+    "metric": "temperature",
+    "unit": "°C",
+    "condition": {
+      "operator": "outside",
+      "min_value": 35.8,
+      "max_value": 37.8
+    },
+    "source": {
+      "title": "Reglas educativas ARES HEALTH",
+      "reference": "Configuración de demostración del proyecto",
+      "url": null
+    },
+    "version": "1",
+    "validation_status": "demonstration",
+    "message": "Temperatura fuera del rango de demostración",
+    "guidance": [
+      "Verificar el sensor y comunicar el hallazgo conforme al procedimiento de la misión."
+    ],
+    "enabled": true
+  },
+  {
+    "id": "ares.demo.sleep_hours",
+    "scope": "educational",
+    "metric": "sleep_hours",
+    "unit": "h",
+    "condition": {
+      "operator": "below",
+      "threshold": 5.5
+    },
+    "source": {
+      "title": "Reglas educativas ARES HEALTH",
+      "reference": "Configuración de demostración del proyecto",
+      "url": null
+    },
+    "version": "1",
+    "validation_status": "demonstration",
+    "message": "Descanso inferior al objetivo de demostración",
+    "guidance": [
+      "Revisar hábitos de descanso y la planificación de turnos."
+    ],
+    "enabled": true
+  }
+]

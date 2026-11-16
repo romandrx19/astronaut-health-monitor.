@@ -1,0 +1,29 @@
+{
+  "is_demo": true,
+  "eye": "OD",
+  "exam_date": "2026-02-01T12:00:00Z",
+  "mission_phase": "inflight",
+  "device_model": "Equipo OCT de demostración",
+  "scan_protocol": "Protocolo sintético A",
+  "image_quality": "good",
+  "is_baseline": false,
+  "provenance": "exported_report",
+  "source_document": "Ejemplo sintético ARES OCT seguimiento",
+  "notes": "Seguimiento ficticio del ejemplo basal. Valores sin interpretación clínica.",
+  "measurements": [
+    {
+      "metric": "rnfl",
+      "value": 92,
+      "unit": "µm",
+      "anatomical_region": "Anillo de prueba",
+      "measurement_method": "Informe sintético v1"
+    },
+    {
+      "metric": "trt",
+      "value": 253,
+      "unit": "µm",
+      "anatomical_region": "Región de prueba A",
+      "measurement_method": "Informe sintético v1"
+    }
+  ]
+}

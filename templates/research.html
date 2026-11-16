@@ -1,0 +1,54 @@
+<section id="view-research" class="module-view research-view" aria-labelledby="research-title" hidden>
+  <div class="research-heading">
+    <div><p class="eyebrow">08 / ARCHIVO CIENTÍFICO</p><h2 id="research-title" tabindex="-1">Investigación NASA</h2>
+      <p class="muted">Estudios análogos históricos · Participantes de investigación · Sin telemetría en tiempo real</p></div>
+    <span id="research-catalog-count" class="pill">Consultando conjuntos…</span>
+  </div>
+  <form id="research-filters" class="panel research-filters">
+    <label for="research-dataset">Conjunto de investigación<select id="research-dataset" required></select></label>
+    <label for="research-subject">Participante de investigación<select id="research-subject" required></select></label>
+    <label for="research-entity">Familia de datos<select id="research-entity"></select></label>
+    <label for="research-metric">Indicador<select id="research-metric"></select></label>
+    <label for="research-from">Desde (fecha de estudio)<input id="research-from" type="date"></label>
+    <label for="research-to">Hasta (fecha de estudio)<input id="research-to" type="date"></label>
+    <button id="research-apply" type="submit">Aplicar fechas</button>
+    <button id="research-reset" type="button" class="secondary">Todo el periodo</button>
+  </form>
+  <div class="research-context"><p id="research-status" role="status" aria-live="polite">Selecciona un conjunto para consultar.</p>
+    <button id="research-retry" type="button" class="secondary" hidden>Reintentar consulta</button></div>
+  <div id="research-content" hidden>
+    <div id="research-cards" class="research-cards" aria-label="Disponibilidad de indicadores"></div>
+    <div class="research-workspace">
+      <article class="panel research-chart-panel">
+        <div class="section-header"><div><p class="eyebrow">EVOLUCIÓN / VISTA DIARIA</p><h3 id="research-chart-title">Evolución histórica</h3></div>
+          <span class="research-historical">HISTÓRICO</span></div>
+        <p id="research-chart-caption" class="muted"></p>
+        <div class="research-chart-wrap"><canvas id="research-chart" role="img" aria-label="Evolución por fecha de estudio; valores disponibles en la tabla"></canvas>
+          <p id="research-chart-empty" class="research-chart-empty" hidden>Sin mediciones fechadas para esta selección.</p></div>
+        <p id="research-chart-detail" class="muted" aria-live="polite">Pasa el puntero por un punto para consultar fecha y valor.</p>
+        <p class="research-chart-legend"><span>● Valor diario</span><span>● Con bandera de calidad</span><span>Los valores ausentes interrumpen la línea.</span></p>
+      </article>
+      <aside class="panel research-provenance">
+        <p class="eyebrow">CONTEXTO Y PROCEDENCIA</p><h3>Acerca del conjunto</h3>
+        <div id="research-source"></div>
+        <div class="research-note"><strong>SpO₂ no disponible</strong><p>Los conjuntos recibidos no incluyen mediciones de saturación de oxígeno.</p></div>
+        <p class="muted">Las fechas pertenecen al estudio. Las horas locales registradas no tienen zona horaria verificable; no se presentan como instantes UTC de adquisición.</p>
+        <p class="muted">Datos proporcionados por el equipo según su catálogo de fuentes. No proceden del Roadtrip Watch 4 GPS ni definen límites clínicos.</p>
+      </aside>
+      <article class="panel research-results">
+        <div class="section-header"><div><p class="eyebrow">REGISTROS ORIGINALES</p><h3>Resultados del estudio</h3></div><span id="research-record-count" class="muted"></span></div>
+        <p class="muted">Se conservan valores originales, fechas ausentes y registros señalados. La curva utiliza las vistas diarias del proveedor y deja los conflictos como no disponibles.</p>
+        <div class="research-table-wrap" tabindex="0" aria-label="Tabla de resultados, desplazamiento horizontal"><table class="research-table">
+          <thead><tr><th>Fecha de estudio</th><th id="research-value-heading">Valor</th><th>Fase / día BR</th><th>Calidad</th><th>Procedencia</th></tr></thead>
+          <tbody id="research-results"></tbody></table></div>
+        <div class="research-pagination"><button id="research-prev" type="button" class="secondary">← Anterior</button><span id="research-page"></span><button id="research-next" type="button" class="secondary">Siguiente →</button></div>
+      </article>
+      <article class="panel research-quality">
+        <div class="section-header"><div><p class="eyebrow">REVISIÓN DE DATOS</p><h3>Banderas de calidad</h3></div><span id="research-quality-count" class="research-quality-count"></span></div>
+        <p id="research-quality-summary" class="muted"></p>
+        <div id="research-flags"></div>
+        <div class="research-pagination"><button id="research-flags-prev" type="button" class="secondary">← Anterior</button><span id="research-flags-page"></span><button id="research-flags-next" type="button" class="secondary">Siguiente →</button></div>
+      </article>
+    </div>
+  </div>
+</section>

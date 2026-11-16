@@ -1,0 +1,80 @@
+.oct-view .oct-module { max-width: 1700px; }
+.oct-module > .section-header { align-items: flex-start; }
+.oct-module .section-header p { margin: 7px 0 0; }
+.oct-module h3 { margin: 0 0 12px; font-size: 15px; }
+.oct-module h4 { margin: 20px 0 8px; font-size: 14px; }
+.oct-module :is(p, dd, strong) { overflow-wrap: anywhere; }
+.oct-demo-label { color: var(--accent); font-size: 12px; font-weight: 750; margin: 6px 0; }
+.oct-context, .oct-filters, .oct-form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(175px, 1fr)); gap: 14px; align-items: end; }
+.oct-context { padding: 16px 0; border-bottom: 1px solid var(--stroke); }
+.oct-context > div { display: grid; gap: 10px; align-self: center; font-size: 13px; }
+.oct-module label { display: grid; gap: 7px; color: var(--muted); font-size: 12px; min-width: 0; }
+.oct-module :is(input, select, textarea) { width: 100%; min-width: 0; padding: 10px; border-radius: 8px; border: 1px solid var(--stroke); background: var(--panel-2); color: var(--text); font: inherit; }
+.oct-module textarea { resize: vertical; line-height: 1.6; }
+.oct-module :is(input[type="file"]) { padding: 8px; font-size: 12px; }
+.oct-module button { font-size: 12px; min-height: 36px; }
+#oct-status { min-height: 1.4em; font-size: 13px; color: var(--accent); }
+#oct-status[data-state="error"] { color: var(--red); }
+.oct-workspace { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(280px, 1fr); gap: 16px; }
+.oct-card { min-width: 0; padding: 16px; border: 1px solid var(--stroke); border-radius: 11px; background: #0d192b; }
+.oct-card .section-header { margin-bottom: 8px; }
+.oct-card .section-header h3 { margin: 0; }
+.oct-viewer-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 12px 0; }
+.oct-viewer-tools button { padding: 8px 12px; }
+#oct-zoom-label { font-size: 12px; min-width: 48px; text-align: center; color: var(--muted); }
+.oct-image-viewport { height: clamp(280px, 43dvh, 560px); overflow: auto; border: 1px solid var(--stroke); border-radius: 8px; background: #030914; }
+#oct-image-empty { padding: 32px; text-align: center; line-height: 1.7; max-width: 520px; margin: 40px auto; }
+.oct-image-stage { min-width: 100%; min-height: 100%; display: grid; place-items: center; }
+.oct-image-stage img { display: block; max-width: none; object-fit: contain; }
+.oct-metadata { margin: 14px 0; font-size: 12px; }
+.oct-metadata summary, .oct-card > summary { cursor: pointer; font-size: 14px; font-weight: 650; }
+.oct-metadata dl { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 8px; line-height: 1.6; }
+.oct-metadata dt { color: var(--muted); }
+.oct-metadata dd { margin: 0; overflow-wrap: anywhere; white-space: pre-wrap; }
+.oct-attach-form { display: flex; flex-wrap: wrap; gap: 10px; align-items: end; border-top: 1px solid var(--stroke); padding-top: 14px; }
+.oct-attach-form label { flex: 1; }
+.oct-measurement { padding: 12px; border: 1px solid var(--stroke); border-radius: 8px; margin-bottom: 10px; }
+.oct-measurement strong { display: block; font-size: 23px; color: var(--accent); margin: 5px 0; }
+.oct-measurement p { margin: 5px 0 0; font-size: 12px; line-height: 1.6; color: var(--muted); }
+.oct-measurement h4 { margin: 0; font-size: 13px; }
+.oct-review-summary { border-top: 1px solid var(--stroke); padding-top: 16px; margin-top: 18px; }
+.oct-review-summary p { font-size: 12px; line-height: 1.6; }
+.oct-notices { display: grid; gap: 9px; margin-top: 16px; }
+.oct-notice { border-left: 3px solid var(--accent); border-radius: 5px; padding: 10px; background: var(--panel-2); font-size: 12px; line-height: 1.6; }
+.oct-notice[data-kind="configured_review"] { border-left-color: var(--orange); }
+.oct-notice p { margin: 5px 0; }
+.oct-followup, .oct-registration, #oct-review-panel { margin-top: 16px; }
+.oct-filters { margin-top: 16px; }
+#oct-comparison-status { font-size: 13px; line-height: 1.6; }
+.oct-comparison-values { display: grid; grid-template-columns: repeat(auto-fit, minmax(135px, 1fr)); gap: 10px; }
+.oct-comparison-values div { padding: 12px; border: 1px solid var(--stroke); border-radius: 8px; }
+.oct-comparison-values span { font-size: 11px; color: var(--muted); }
+.oct-comparison-values strong { display: block; font-size: 19px; margin-top: 6px; }
+.oct-chart-container { height: 260px; margin-top: 16px; }
+.oct-chart-container canvas { display: block; width: 100%; height: 100%; }
+.oct-registration > label { margin: 18px 0 8px; }
+.oct-registration form > button { margin-top: 14px; }
+.oct-module fieldset { min-width: 0; border: 0; margin: 18px 0 0; padding: 0; }
+.oct-module legend { margin-bottom: 14px; font-size: 14px; }
+.oct-module fieldset > label { margin-top: 16px; }
+.oct-module .oct-check { display: flex; align-items: flex-start; gap: 9px; line-height: 1.6; }
+.oct-module .oct-check input { width: auto; margin-top: 3px; accent-color: var(--accent); }
+.oct-measurement-row { display: grid; grid-template-columns: 1fr .7fr .6fr 1.4fr 1.4fr auto; align-items: end; gap: 9px; margin: 12px 0; padding: 12px; border: 1px solid var(--stroke); border-radius: 8px; }
+.oct-measurement-row button { padding: 8px; }
+#oct-review-form > button { margin-top: 12px; }
+.ocular-medical-summary { padding: 16px; margin: 16px 0; border: 1px solid var(--stroke); border-radius: 10px; }
+.ocular-medical-summary h3 { margin-top: 0 !important; }
+.ocular-medical-summary p { font-size: 12px; color: var(--muted); line-height: 1.6; white-space: pre-wrap; }
+@media (max-width: 1050px) {
+  .oct-workspace { grid-template-columns: minmax(0, 1fr); }
+  .oct-measurement-row { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 640px) {
+  .oct-module > .section-header { flex-direction: column; }
+  .oct-module h2 { font-size: 19px; line-height: 1.4; }
+  .oct-card { padding: 12px; }
+  .oct-context, .oct-filters, .oct-form-grid { grid-template-columns: minmax(0, 1fr); }
+  .oct-measurement-row { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 9px; }
+  .oct-image-viewport { height: 300px; }
+  #oct-image-empty { padding: 16px; margin-top: 24px; }
+}
